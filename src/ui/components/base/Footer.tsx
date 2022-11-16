@@ -1,20 +1,17 @@
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { memo } from "react";
+import { makeStyles } from "tss-react/mui";
 
-export type FooterProps = {
-  className: string;
-};
-export const Footer = memo((props: FooterProps) => {
+export const Footer = memo(() => {
+  const { classes } = useStyles();
   const year = new Date().getFullYear();
-  const { className } = props;
-
   return (
     <Typography
       variant="body2"
       color="text.secondary"
       align="center"
-      className={className}
+      className={classes.root}
     >
       Copyright ©{" "}
       <Link color="inherit" href="https://mui.com/">
@@ -24,5 +21,13 @@ export const Footer = memo((props: FooterProps) => {
     </Typography>
   );
 });
+
+const useStyles = makeStyles()((theme) => ({
+  root: {
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    padding: "5px",
+  },
+}));
 
 Footer.displayName = "Footer";

@@ -1,9 +1,8 @@
-export { ApplicationBar } from "./ApplicationBar";
+export { Header } from "./Header";
 export { Error } from "./Error";
 export { Footer } from "./Footer";
-export { Header } from "./Header";
 export { ListItemLink } from "./ListItemLink";
-export { Menu } from "./Menu";
+export { SidebarNav } from "./SidebarNav";
 export { Title } from "./Title";
 export { Block } from "./Block";
-export type { MenuProps } from "./Menu";
+export type { SidebarNavProps } from "./SidebarNav";

@@ -1,22 +1,19 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { makeStyles } from "tss-react/mui";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Toolbar from "@mui/material/Toolbar";
 import { memo } from "react";
-import { NavMenu } from "../../root/routes.js";
+import { makeStyles } from "tss-react/mui";
 import { ListItemLink } from ".";
+import { NavMenu } from "../../root/routes.js";
 
-export type MenuProps = {
+export type SidebarNavProps = {
   open: boolean;
   toggleDrawer: () => void;
-  drawerWidth: number;
 };
 
-export const Menu = memo((props: MenuProps) => {
-  const { open, toggleDrawer, drawerWidth } = props;
+export const SidebarNav = memo((props: SidebarNavProps) => {
+  const drawerWidth = 240;
+  const { open } = props;
 
   const { classes, cx } = useStyles({ drawerWidth: drawerWidth });
 
@@ -26,12 +23,7 @@ export const Menu = memo((props: MenuProps) => {
       variant="permanent"
       open={open}
     >
-      <Toolbar className={classes.toolbar}>
-        <IconButton onClick={() => toggleDrawer()}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </Toolbar>
-      <Divider />
+      <Toolbar />
       <List component="nav">
         {NavMenu.map((item, index) => (
           <ListItemLink
@@ -60,15 +52,9 @@ const useStyles = makeStyles<{ drawerWidth: number }>()(
         boxSizing: "border-box",
       },
     },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      px: [1],
-    },
     miniDrawer: {
       "& .MuiDrawer-paper": {
-        overflowX: "hidden",
+        overflow: "hidden",
         transition: theme.transitions.create("width", {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
@@ -82,4 +68,4 @@ const useStyles = makeStyles<{ drawerWidth: number }>()(
   })
 );
 
-Menu.displayName = "Menu";
+SidebarNav.displayName = "SidebarNav";

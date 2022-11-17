@@ -24,45 +24,36 @@ export const Application = memo(() => {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-      <Box className={classes.root}>
-        <Header open={open} toggleDrawer={toggleDrawer} />
-        <BrowserRouter>
-          <Box className={classes.horizontalContainer}>
-            <SidebarNav open={open} toggleDrawer={toggleDrawer} />
-            <Container maxWidth="lg" className={classes.container}>
-              <Toolbar />
-              <Grid component="main" container spacing={3}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/orders" element={<OrdersPage />} />
-                  <Route path="/reports" element={<ReportsPage />} />
-                  <Route path="*" element={<ErrorPage />} />
-                </Routes>
-              </Grid>
-            </Container>
-          </Box>
-        </BrowserRouter>
-        <Footer />
-      </Box>
+      <Header open={open} toggleDrawer={toggleDrawer} />
+      <BrowserRouter>
+        <Box className={classes.horizontalContainer}>
+          <SidebarNav open={open} toggleDrawer={toggleDrawer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid component="main" container spacing={3}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/reports" element={<ReportsPage />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+            </Grid>
+          </Container>
+        </Box>
+      </BrowserRouter>
+      <Footer />
     </ThemeProvider>
   );
 });
 
 const useStyles = makeStyles()((theme) => ({
-  root: {
-    display: "flex",
-    height: "100vh",
-    flexDirection: "column",
-  },
   container: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(11),
+    marginBottom: theme.spacing(5),
     flexGrow: "1",
-    padding: "3px",
   },
   horizontalContainer: {
     display: "flex",
-    height: "100%",
+    minHeight: "100vh",
     backgroundColor: "#E1E8EF",
   },
 }));

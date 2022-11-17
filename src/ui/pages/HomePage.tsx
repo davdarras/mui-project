@@ -16,7 +16,6 @@ export const HomePage = memo(() => {
           <Chart />
         </Block>
       </Grid>
-
       <Grid item xs={12} md={4} lg={3}>
         <Block className={classes.paperChart}>
           <Deposits />

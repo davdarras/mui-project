@@ -12,7 +12,7 @@ export default class NomenclatureRepository
   constructor(private apiUrl: string) {}
 
   public async getNomenclatures(): Promise<Nomenclature[]> {
-    return getRequest<Nomenclature[]>(this.apiUrl);
+    return getRequest<Nomenclature[]>(this.apiUrl + "/nomenclatures");
   }
 
   public async getNomenclature(id: number): Promise<Nomenclature> {
@@ -23,7 +23,7 @@ export default class NomenclatureRepository
     nomenclature: Nomenclature
   ): Promise<Nomenclature> {
     return postRequest<Nomenclature>(
-      this.apiUrl + "/nomenclatures",
+      this.apiUrl + "/nomenclatures/add",
       nomenclature
     );
   }
@@ -32,12 +32,12 @@ export default class NomenclatureRepository
     nomenclature: Nomenclature
   ): Promise<Nomenclature> {
     return postRequest<Nomenclature>(
-      this.apiUrl + "/nomenclatures",
+      this.apiUrl + "/nomenclatures/" + nomenclature.id,
       nomenclature
     );
   }
 
   public async deleteNomenclature(id: number): Promise<void> {
-    deleteRequest<Nomenclature>(this.apiUrl + "/nomenclatures/" + id);
+    deleteRequest<void>(this.apiUrl + "/nomenclatures/" + id + "/delete");
   }
 }

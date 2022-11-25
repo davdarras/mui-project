@@ -1,11 +1,12 @@
 import { Grid } from "@mui/material";
 import React, { memo } from "react";
-import { Chart } from "../components/Chart";
-import { Deposits } from "../components/Deposits";
-import { Orders } from "../components/Orders";
 
 import { makeStyles } from "tss-react/mui";
 import { Block } from "modules/core/presentation/components";
+import { Chart } from "../components/Chart";
+import { Deposits } from "../components/Deposits";
+import { Orders } from "../components/Orders";
+import { ContactForm } from "../components/ContactForm";
 
 export const HomePage = memo(() => {
   const { classes } = useStyles();
@@ -25,6 +26,11 @@ export const HomePage = memo(() => {
         <Grid item xs={12}>
           <Block>
             <Orders />
+          </Block>
+        </Grid>
+        <Grid item xs={12}>
+          <Block>
+            <ContactForm />
           </Block>
         </Grid>
       </Grid>

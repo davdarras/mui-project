@@ -33,7 +33,7 @@ export const Header = memo((props: SidebarNavProps) => {
           color="inherit"
           noWrap
         >
-          Dashboard
+          Public enemy
         </Typography>
 
         <IconButton color="inherit">

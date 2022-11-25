@@ -32,10 +32,11 @@ const fetcher = <ResponseType>(
       if (!response.ok) {
         throw new Error("Problem with request");
       }
+
       return response.json();
     })
     .then((json) => {
-      return json as ResponseType;
+      return json;
     })
     .catch((err) => {
       throw new Error(err);

@@ -1,8 +1,6 @@
-import BarChartIcon from "@mui/icons-material/BarChart";
-import ErrorIcon from "@mui/icons-material/Error";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import DynamicFormIcon from "@mui/icons-material/DynamicForm";
+import ErrorIcon from "@mui/icons-material/Error";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
 const NavMenu = [
@@ -10,21 +8,6 @@ const NavMenu = [
     label: "Home",
     pathname: "/",
     icon: DashboardIcon,
-  },
-  {
-    label: "Orders",
-    pathname: "/orders",
-    icon: ShoppingCartIcon,
-  },
-  {
-    label: "Reports",
-    pathname: "/reports",
-    icon: BarChartIcon,
-  },
-  {
-    label: "Form",
-    pathname: "/form",
-    icon: DynamicFormIcon,
   },
   {
     label: "Nomenclatures de test",

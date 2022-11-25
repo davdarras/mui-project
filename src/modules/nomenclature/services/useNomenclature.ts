@@ -1,48 +1,34 @@
-import { useState } from "react";
 import NomenclatureService from "../application/Nomenclature.service";
 import { Nomenclature } from "../domain";
 import NomenclatureRepository from "../infrastructure/Nomenclature.repository";
 
 const nomenclatureRepository = new NomenclatureRepository(
-  "http://localhost:8080/api/nomenclatures"
+  "http://localhost:8080/api"
 );
 const nomenclatureService = new NomenclatureService(nomenclatureRepository);
 
 export default function useNomenclature() {
-  const [nomenclatures, setNomenclatures] = useState<Nomenclature[]>();
-  const [nomenclature, setNomenclature] = useState<Nomenclature>();
-
   const getNomenclatures = () => {
-    nomenclatureService
-      .getNomenclatures()
-      .then((nomenclaturesData) => setNomenclatures(nomenclaturesData));
+    return nomenclatureService.getNomenclatures();
   };
 
   const getNomenclature = (id: number) => {
-    nomenclatureService
-      .getNomenclature(id)
-      .then((nomenclatureData) => setNomenclature(nomenclatureData));
+    return nomenclatureService.getNomenclature(id);
   };
 
   const editNomenclature = (nomenclature: Nomenclature) => {
-    nomenclatureService
-      .editNomenclature(nomenclature)
-      .then((nomenclatureData) => setNomenclature(nomenclatureData));
+    return nomenclatureService.editNomenclature(nomenclature);
   };
 
   const addNomenclature = (nomenclature: Nomenclature) => {
-    nomenclatureService
-      .addNomenclature(nomenclature)
-      .then((nomenclatureData) => setNomenclature(nomenclatureData));
+    return nomenclatureService.addNomenclature(nomenclature);
   };
 
   const deleteNomenclature = (id: number) => {
-    nomenclatureService.deleteNomenclature(id);
+    return nomenclatureService.deleteNomenclature(id);
   };
 
   return {
-    nomenclature,
-    nomenclatures,
     getNomenclatures,
     getNomenclature,
     editNomenclature,

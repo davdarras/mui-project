@@ -3,11 +3,12 @@ import {
   getRequest,
   postRequest,
 } from "modules/core/utils/fetch";
-import { NomenclatureRepositoryInterface } from "../application/Nomenclature.repository.interface";
+import { postRequestMultiPart } from "modules/core/utils/fetch/fetcher";
+import { NomenclatureRepositoryType } from "../application/INomenclatureRepository";
 import { Nomenclature } from "../domain";
 
 export default class NomenclatureRepository
-  implements NomenclatureRepositoryInterface
+  implements NomenclatureRepositoryType
 {
   constructor(private apiUrl: string) {}
 
@@ -20,20 +21,36 @@ export default class NomenclatureRepository
   }
 
   public async addNomenclature(
-    nomenclature: Nomenclature
+    nomenclature: Nomenclature,
+    dictionaryFile?: File
   ): Promise<Nomenclature> {
-    return postRequest<Nomenclature>(
+    const formData = new FormData();
+    formData.append("nomenclature", JSON.stringify(nomenclature));
+    if (dictionaryFile !== undefined) {
+      formData.append("dictionaryFile", dictionaryFile);
+    }
+
+    return postRequestMultiPart<Nomenclature>(
       this.apiUrl + "/nomenclatures/add",
-      nomenclature
+      formData
     );
   }
 
   public async editNomenclature(
-    nomenclature: Nomenclature
+    nomenclature: Nomenclature,
+    dictionaryFile?: File
   ): Promise<Nomenclature> {
-    return postRequest<Nomenclature>(
+    const formData = new FormData();
+    const json = new Blob([JSON.stringify(nomenclature)], {
+      type: "application/json",
+    });
+    formData.append("nomenclature", json, "");
+    if (dictionaryFile !== undefined) {
+      formData.append("dictionaryFile", dictionaryFile);
+    }
+    return postRequestMultiPart<Nomenclature>(
       this.apiUrl + "/nomenclatures/" + nomenclature.id,
-      nomenclature
+      formData
     );
   }
 

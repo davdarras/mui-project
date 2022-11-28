@@ -5,22 +5,22 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 
 const NavMenu = [
   {
-    label: "Home",
+    label: "menu_home",
     pathname: "/",
     icon: DashboardIcon,
   },
   {
-    label: "Nomenclatures de test",
+    label: "menu_nomenclatures",
     pathname: "/nomenclatures",
     icon: ViewListIcon,
   },
   {
-    label: "Campagnes",
+    label: "menu_campaigns",
     pathname: "/campaigns",
     icon: DynamicFormIcon,
   },
   {
-    label: "URL inexistante",
+    label: "menu_error",
     pathname: "/url-inexistante",
     icon: ErrorIcon,
   },

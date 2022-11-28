@@ -1,0 +1,21 @@
+export const nomenclaturesFr = {
+  nomenclature_list_label: "Liste des nomenclatures",
+  nomenclature_list_btn_add: "Ajouter une nomenclature",
+  nomenclature_list_items_name: "Nom",
+  nomenclature_list_items_actions: "Actions",
+  nomenclature_edit_label: "Edition de la nomenclature: {name}",
+  nomenclature_add_label: "Ajouter nomenclature",
+  nomenclature_edit_name: "Nom",
+  nomenclature_edit_name_unique: "Identifiant unique de nomenclature",
+  nomenclature_edit_upload: "Charger le dictionnaire",
+  nomenclature_edit_items_id: "ID",
+  nomenclature_edit_items_value: "Valeur",
+  nomenclature_edit_save: "Enregistrer",
+  nomenclature_edit_success: "Nomenclature enregistrée",
+  nomenclature_delete_confirmation_label: "Confirmation de la suppression",
+  nomenclature_delete_confirmation_body:
+    "Etes vous sur de vouloir supprimer la nomenclature suivante: {name} ?",
+  nomenclature_delete_confirmation_agree: "Confirmer la suppression",
+  nomenclature_delete_confirmation_disagree: "Annuler",
+  nomenclature_delete_success: "Nomenclature supprimée",
+};

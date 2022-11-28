@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  Input,
   Paper,
   Stack,
   Table,
@@ -15,19 +16,24 @@ import {
 } from "@mui/material";
 import { Block, Title } from "modules/core/presentation/components";
 import { Nomenclature } from "modules/nomenclature/domain";
-import useNomenclature from "modules/nomenclature/services/useNomenclature";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import { useToast } from "modules/core/presentation/components/Toast";
+import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
+import { useIntl } from "react-intl";
 
-export const NomenclatureEdit = memo(() => {
+type NomenclatureForm = {
+  nomenclature: Nomenclature;
+  files: FileList;
+};
+
+export const NomenclatureEditPage = memo(() => {
   const [nomenclature, setNomenclature] = useState<Nomenclature>();
   const { addToast } = useToast();
-  const { getNomenclature, editNomenclature, addNomenclature } =
-    useNomenclature();
+  const nomenclatureUseCase = makeNomenclatureUseCase();
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = id !== undefined ? true : false;
@@ -36,12 +42,13 @@ export const NomenclatureEdit = memo(() => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Nomenclature>();
+  } = useForm<NomenclatureForm>();
+  const intl = useIntl();
 
   useEffect(() => {
     const idNumber = Number(id);
     if (isEditMode) {
-      getNomenclature(idNumber).then((nomenclatureData) => {
+      nomenclatureUseCase.getNomenclature(idNumber).then((nomenclatureData) => {
         setNomenclature(nomenclatureData);
       });
     }
@@ -50,23 +57,38 @@ export const NomenclatureEdit = memo(() => {
   // effect runs when user state is updated
   useEffect(() => {
     if (nomenclature !== undefined) {
-      setValue("id", nomenclature.id);
-      setValue("name", nomenclature.name);
+      setValue("nomenclature.id", nomenclature.id);
+      setValue("nomenclature.name", nomenclature.name);
     }
   }, [nomenclature]);
 
-  const handleNomenclatureSubmit = handleSubmit((formData) => {
+  const handleNomenclatureSubmit = handleSubmit(async (data) => {
+    let dictionaryFile: File | undefined = undefined;
+    if (data.files?.length > 0) {
+      dictionaryFile = data.files[0];
+    }
+
     if (isEditMode) {
-      editNomenclature(formData).then(() => {
-        addToast("Nomenclature saved", "success");
-        navigate("/nomenclatures");
-      });
+      nomenclatureUseCase
+        .editNomenclature(data.nomenclature, dictionaryFile)
+        .then(() => {
+          addToast(
+            intl.formatMessage({ id: "nomenclature_edit_success" }),
+            "success"
+          );
+          navigate("/nomenclatures");
+        });
       return;
     }
-    addNomenclature(formData).then(() => {
-      addToast("Nomenclature added", "success");
-      navigate("/nomenclatures");
-    });
+    nomenclatureUseCase
+      .addNomenclature(data.nomenclature, dictionaryFile)
+      .then(() => {
+        addToast(
+          intl.formatMessage({ id: "nomenclature_edit_success" }),
+          "success"
+        );
+        navigate("/nomenclatures");
+      });
   });
 
   return (
@@ -75,24 +97,31 @@ export const NomenclatureEdit = memo(() => {
         <Grid item xs={12} md={8}>
           <Block>
             <Title>
-              {isEditMode ? `Edit ${nomenclature?.name}` : "Add Nomenclature"}
+              {isEditMode
+                ? intl.formatMessage(
+                    { id: "nomenclature_edit_label" },
+                    { name: nomenclature?.name }
+                  )
+                : intl.formatMessage({ id: "nomenclature_add_label" })}
             </Title>
             <Box component="form" onSubmit={handleNomenclatureSubmit}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   margin="normal"
-                  label="Name"
+                  label={intl.formatMessage({ id: "nomenclature_edit_name" })}
                   fullWidth
                   variant="outlined"
                   InputLabelProps={{ shrink: true }}
                   helperText={
-                    errors.name
-                      ? errors.name.message
-                      : "Unique identifier of nomenclature"
+                    errors.nomenclature?.name
+                      ? errors.nomenclature.name.message
+                      : intl.formatMessage({
+                          id: "nomenclature_edit_name_unique",
+                        })
                   }
-                  error={errors.name !== undefined ? true : false}
-                  {...register("name", {
+                  error={errors.nomenclature?.name !== undefined ? true : false}
+                  {...register("nomenclature.name", {
                     required: "This is required",
                   })}
                 />
@@ -100,8 +129,12 @@ export const NomenclatureEdit = memo(() => {
 
               <Grid item xs={12} sm={6}>
                 <Button variant="contained" component="label">
-                  Upload dictionary
-                  <input type="file" hidden />
+                  {intl.formatMessage({ id: "nomenclature_edit_upload" })}
+                  <Input
+                    sx={{ display: "none" }}
+                    type="file"
+                    {...register("files")}
+                  />
                 </Button>
               </Grid>
 
@@ -112,7 +145,7 @@ export const NomenclatureEdit = memo(() => {
                   variant="contained"
                   startIcon={<SaveIcon />}
                 >
-                  Save nomenclature
+                  {intl.formatMessage({ id: "nomenclature_edit_save" })}
                 </Button>
               </Stack>
             </Box>
@@ -128,15 +161,21 @@ export const NomenclatureEdit = memo(() => {
                   color="primary"
                   gutterBottom
                   justifyContent="center"
-                >
-                  First values of nomenclature
-                </Typography>
+                ></Typography>
                 <TableContainer component={Paper}>
                   <Table aria-label="nomenclature items table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Value</TableCell>
+                        <TableCell>
+                          {intl.formatMessage({
+                            id: "nomenclature_edit_items_id",
+                          })}
+                        </TableCell>
+                        <TableCell>
+                          {intl.formatMessage({
+                            id: "nomenclature_edit_items_values",
+                          })}
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     {
@@ -162,4 +201,4 @@ export const NomenclatureEdit = memo(() => {
   );
 });
 
-NomenclatureEdit.displayName = "NomenclatureEdit";
+NomenclatureEditPage.displayName = "NomenclatureEditPage";

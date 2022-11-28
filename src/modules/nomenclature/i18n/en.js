@@ -1,0 +1,21 @@
+export const nomenclaturesEn = {
+  nomenclature_list_label: "Nomenclature List",
+  nomenclature_list_btn_add: "Add nomenclature",
+  nomenclature_list_items_name: "Name",
+  nomenclature_list_items_actions: "Actions",
+  nomenclature_add_label: "Add nomenclature",
+  nomenclature_edit_label: "Edit nomenclature {name}",
+  nomenclature_edit_name: "Name",
+  nomenclature_edit_name_unique: "Unique Identifier of nomenclature",
+  nomenclature_edit_upload: "Upload dictionary",
+  nomenclature_edit_items_id: "ID",
+  nomenclature_edit_items_value: "Value",
+  nomenclature_edit_save: "Save",
+  nomenclature_edit_success: "Nomenclature saved",
+  nomenclature_delete_confirmation_label: "Delete confirmation",
+  nomenclature_delete_confirmation_body:
+    "Do you really want to delete the following nomenclature : {name}",
+  nomenclature_delete_confirmation_agree: "Agree",
+  nomenclature_delete_confirmation_disagree: "Disagree",
+  nomenclature_delete_success: "Nomenclature deleted",
+};

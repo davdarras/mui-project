@@ -10,32 +10,38 @@ import {
 } from "@mui/material";
 import { useToast } from "modules/core/presentation/components/Toast";
 import { Nomenclature } from "modules/nomenclature/domain";
-import useNomenclature from "modules/nomenclature/services/useNomenclature";
+import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import React, { memo, useState } from "react";
+import { useIntl } from "react-intl";
 
 type NomenclatureDeleteType = {
   nomenclature: Nomenclature;
-  refreshNomenclatures: () => void;
+  loadNomenclatures: () => void;
 };
 
 export const NomenclatureDelete = memo(
-  ({ nomenclature, refreshNomenclatures }: NomenclatureDeleteType) => {
+  ({ nomenclature, loadNomenclatures }: NomenclatureDeleteType) => {
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const { addToast } = useToast();
-    const { deleteNomenclature } = useNomenclature();
+    const nomenclatureUseCase = makeNomenclatureUseCase();
+    const intl = useIntl();
 
     const toggleConfirmationDialog = () => {
       setOpenConfirmationDialog(!openConfirmationDialog);
     };
 
     const handleDelete = () => {
-      deleteNomenclature(nomenclature.id).then((data) => {
-        console.log("afterDelete");
-        console.log(data);
-        addToast("Nomenclature deleted", "success");
-        refreshNomenclatures();
-        console.log("afterRefresh");
-      });
+      nomenclatureUseCase
+        .deleteNomenclature(nomenclature.id)
+        .then(() => {
+          addToast(
+            intl.formatMessage({ id: "nomenclature_delete_success" }),
+            "success"
+          );
+        })
+        .then(() => {
+          loadNomenclatures();
+        });
       setOpenConfirmationDialog(false);
     };
 
@@ -50,11 +56,17 @@ export const NomenclatureDelete = memo(
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">Delete confirmation</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {intl.formatMessage({
+              id: "nomenclature_delete_confirmation_label",
+            })}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Do you really want to delete the following nomenclature :{" "}
-              {nomenclature.name}
+              {intl.formatMessage(
+                { id: "nomenclature_delete_confirmation_body" },
+                { name: nomenclature.name }
+              )}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -63,7 +75,9 @@ export const NomenclatureDelete = memo(
               variant="contained"
               onClick={toggleConfirmationDialog}
             >
-              Disagree
+              {intl.formatMessage({
+                id: "nomenclature_delete_confirmation_disagree",
+              })}
             </Button>
             <Button
               color="error"
@@ -71,7 +85,9 @@ export const NomenclatureDelete = memo(
               onClick={handleDelete}
               autoFocus
             >
-              Agree
+              {intl.formatMessage({
+                id: "nomenclature_delete_confirmation_agree",
+              })}
             </Button>
           </DialogActions>
         </Dialog>

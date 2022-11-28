@@ -3,6 +3,7 @@ import List from "@mui/material/List";
 import Toolbar from "@mui/material/Toolbar";
 import { NavMenu } from "modules/core/routes";
 import { memo } from "react";
+import { useIntl } from "react-intl";
 import { makeStyles } from "tss-react/mui";
 import { ListItemLink } from ".";
 
@@ -14,7 +15,7 @@ export type SidebarNavProps = {
 export const SidebarNav = memo((props: SidebarNavProps) => {
   const drawerWidth = 250;
   const { open } = props;
-
+  const intl = useIntl();
   const { classes, cx } = useStyles({ drawerWidth: drawerWidth });
 
   return (
@@ -29,7 +30,7 @@ export const SidebarNav = memo((props: SidebarNavProps) => {
           <ListItemLink
             key={`${index}-${item.label}`}
             to={item.pathname}
-            primary={item.label}
+            primary={intl.formatMessage({ id: item.label })}
             Icon={item.icon}
           />
         ))}

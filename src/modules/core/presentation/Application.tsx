@@ -28,7 +28,7 @@ export const Application = memo(() => {
   return (
     <ThemeProvider theme={appTheme}>
       <IntlProvider
-        messages={messages["en"]}
+        messages={messages[navigator.language]}
         locale={navigator.language}
         defaultLocale={LOCALES.ENGLISH}
       >

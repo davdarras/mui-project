@@ -44,12 +44,15 @@ export const NomenclatureEditPage = memo(() => {
     formState: { errors },
   } = useForm<NomenclatureForm>();
   const intl = useIntl();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const idNumber = Number(id);
     if (isEditMode) {
+      setLoading(false);
       nomenclatureUseCase.getNomenclature(idNumber).then((nomenclatureData) => {
         setNomenclature(nomenclatureData);
+        setLoading(false);
       });
     }
   }, []);
@@ -173,7 +176,7 @@ export const NomenclatureEditPage = memo(() => {
                         </TableCell>
                         <TableCell>
                           {intl.formatMessage({
-                            id: "nomenclature_edit_items_values",
+                            id: "nomenclature_edit_items_value",
                           })}
                         </TableCell>
                       </TableRow>

@@ -18,7 +18,6 @@ import { ErrorPage } from "./pages/ErrorPage";
 import { appTheme } from "./theme";
 
 export const Application = memo(() => {
-  console.log(navigator.language);
   const { classes } = useStyles();
   const [open, setOpen] = useState<boolean>(true);
   const toggleDrawer = () => {

@@ -4,4 +4,5 @@ export const messagesFr = {
   menu_nomenclatures: "Nomenclatures de test",
   menu_campaigns: "Campagnes",
   menu_error: "URL inexistante",
+  error_request_failed: "La requête a échoué",
 };

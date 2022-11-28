@@ -4,4 +4,5 @@ export const messagesEn = {
   menu_nomenclatures: "Tests Nomenclatures",
   menu_campaigns: "Campaigns",
   menu_error: "Page not found",
+  error_request_failed: "Request failed",
 };

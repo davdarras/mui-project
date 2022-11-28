@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Block, Title } from "modules/core/presentation/components";
 import { Loader } from "modules/core/presentation/components/Loader";
+import { useToast } from "modules/core/presentation/components/Toast";
 import { Nomenclature } from "modules/nomenclature/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import * as React from "react";
@@ -28,6 +29,7 @@ export const NomenclatureListPage = memo(() => {
   const nomenclatureUseCase = makeNomenclatureUseCase();
   const intl = useIntl();
   const [isLoading, setLoading] = useState(true);
+  const { addToast } = useToast();
 
   useEffect(() => {
     loadNomenclatures();
@@ -35,10 +37,15 @@ export const NomenclatureListPage = memo(() => {
 
   const loadNomenclatures = (): void => {
     setLoading(true);
-    nomenclatureUseCase.getNomenclatures().then((nomenclaturesData) => {
-      setNomenclatures(nomenclaturesData);
-      setLoading(false);
-    });
+    nomenclatureUseCase
+      .getNomenclatures()
+      .then((nomenclaturesData) => {
+        setNomenclatures(nomenclaturesData);
+        setLoading(false);
+      })
+      .catch(() => {
+        addToast(intl.formatMessage({ id: "error_request_failed" }), "error");
+      });
   };
 
   return (

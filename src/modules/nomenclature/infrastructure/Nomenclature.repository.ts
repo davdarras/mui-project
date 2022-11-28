@@ -1,8 +1,4 @@
-import {
-  deleteRequest,
-  getRequest,
-  postRequest,
-} from "modules/core/utils/fetch";
+import { deleteRequest, getRequest } from "modules/core/utils/fetch";
 import { postRequestMultiPart } from "modules/core/utils/fetch/fetcher";
 import { NomenclatureRepositoryType } from "../application/INomenclatureRepository";
 import { Nomenclature } from "../domain";
@@ -25,7 +21,10 @@ export default class NomenclatureRepository
     dictionaryFile?: File
   ): Promise<Nomenclature> {
     const formData = new FormData();
-    formData.append("nomenclature", JSON.stringify(nomenclature));
+    const json = new Blob([JSON.stringify(nomenclature)], {
+      type: "application/json",
+    });
+    formData.append("nomenclature", json, "");
     if (dictionaryFile !== undefined) {
       formData.append("dictionaryFile", dictionaryFile);
     }

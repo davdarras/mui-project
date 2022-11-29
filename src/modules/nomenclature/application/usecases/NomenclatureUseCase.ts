@@ -1,38 +1,57 @@
-import { Nomenclature } from "../../domain";
-import { NomenclatureRepositoryType } from "../INomenclatureRepository";
+import { Nomenclature } from "../domain";
+import { NomenclatureRepositoryType } from "../NomenclatureRepositoryType";
 
-export default class NomenclatureUseCase {
-  constructor(protected nomenclatureRepository: NomenclatureRepositoryType) {}
-
-  public async getNomenclatures(): Promise<Nomenclature[]> {
-    return this.nomenclatureRepository.getNomenclatures();
-  }
-
-  public async getNomenclature(id: number): Promise<Nomenclature> {
-    return this.nomenclatureRepository.getNomenclature(id);
-  }
-
-  public async addNomenclature(
+export type NomenclatureUseCaseType = {
+  getNomenclatures: () => Promise<Nomenclature[]>;
+  getNomenclature: (id: number) => Promise<Nomenclature>;
+  addNomenclature: (
     nomenclature: Nomenclature,
     dictionaryFile?: File
-  ): Promise<Nomenclature> {
-    return this.nomenclatureRepository.addNomenclature(
+  ) => Promise<Nomenclature>;
+  deleteNomenclature: (id: number) => Promise<void>;
+  editNomenclature: (
+    nomenclature: Nomenclature,
+    dictionaryFile?: File
+  ) => Promise<Nomenclature>;
+};
+
+export function createNomenclatureUseCase(
+  nomenclatureRepository: NomenclatureRepositoryType
+): NomenclatureUseCaseType {
+  const getNomenclatures = async (): Promise<Nomenclature[]> => {
+    return nomenclatureRepository.getNomenclatures();
+  };
+
+  const getNomenclature = async (id: number): Promise<Nomenclature> => {
+    return nomenclatureRepository.getNomenclature(id);
+  };
+
+  const addNomenclature = async (
+    nomenclature: Nomenclature,
+    dictionaryFile?: File
+  ): Promise<Nomenclature> => {
+    return nomenclatureRepository.addNomenclature(nomenclature, dictionaryFile);
+  };
+
+  const editNomenclature = async (
+    nomenclature: Nomenclature,
+    dictionaryFile?: File
+  ): Promise<Nomenclature> => {
+    return nomenclatureRepository.editNomenclature(
       nomenclature,
       dictionaryFile
     );
-  }
+  };
 
-  public async editNomenclature(
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
-  ): Promise<Nomenclature> {
-    return this.nomenclatureRepository.editNomenclature(
-      nomenclature,
-      dictionaryFile
-    );
-  }
+  const deleteNomenclature = async (id: number): Promise<void> => {
+    nomenclatureRepository.deleteNomenclature(id);
+  };
 
-  public async deleteNomenclature(id: number): Promise<void> {
-    this.nomenclatureRepository.deleteNomenclature(id);
-  }
+  return {
+    getNomenclatures,
+    getNomenclature,
+    addNomenclature,
+    deleteNomenclature,
+    editNomenclature,
+  };
 }

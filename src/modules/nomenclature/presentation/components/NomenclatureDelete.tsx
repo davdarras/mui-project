@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useToast } from "modules/core/presentation/components/Toast";
-import { Nomenclature } from "modules/nomenclature/domain";
+import { Nomenclature } from "modules/nomenclature/application/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import React, { memo, useState } from "react";
 import { useIntl } from "react-intl";

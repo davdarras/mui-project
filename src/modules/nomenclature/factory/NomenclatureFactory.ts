@@ -1,10 +1,13 @@
 import { makeApiUrl } from "modules/core/factory/http";
-import { NomenclatureRepositoryType } from "../application/INomenclatureRepository";
-import NomenclatureUseCase from "../application/usecases/NomenclatureUseCase";
-import NomenclatureRepository from "../infrastructure/Nomenclature.repository";
+import { NomenclatureRepositoryType } from "../application/NomenclatureRepositoryType";
+import {
+  createNomenclatureUseCase,
+  NomenclatureUseCaseType,
+} from "../application/usecases/NomenclatureUseCase";
+import { createNomenclatureRepository } from "../infrastructure/NomenclatureRepository";
 
 export const makeNomenclatureRepository = (): NomenclatureRepositoryType =>
-  new NomenclatureRepository(makeApiUrl());
+  createNomenclatureRepository(makeApiUrl());
 
-export const makeNomenclatureUseCase = (): NomenclatureUseCase =>
-  new NomenclatureUseCase(makeNomenclatureRepository());
+export const makeNomenclatureUseCase = (): NomenclatureUseCaseType =>
+  createNomenclatureUseCase(makeNomenclatureRepository());

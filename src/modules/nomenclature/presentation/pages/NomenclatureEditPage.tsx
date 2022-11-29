@@ -3,7 +3,7 @@ import { Box, Button, Grid, Input, Stack, TextField } from "@mui/material";
 import { Block, Title } from "modules/core/presentation/components";
 import { Loader } from "modules/core/presentation/components/Loader";
 import { useToast } from "modules/core/presentation/components/Toast";
-import { Nomenclature } from "modules/nomenclature/domain";
+import { Nomenclature } from "modules/nomenclature/application/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";

@@ -3,8 +3,8 @@ import React, { memo } from "react";
 import { makeStyles } from "tss-react/mui";
 
 export type BlocProps = {
-  children?: React.ReactNode | undefined;
-  className?: string | undefined;
+  children?: React.ReactNode;
+  className?: string;
 };
 
 export const Block = memo((props: BlocProps) => {

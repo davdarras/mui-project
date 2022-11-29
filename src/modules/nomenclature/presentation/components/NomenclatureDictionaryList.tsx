@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Block } from "modules/core/presentation/components";
-import { Nomenclature } from "modules/nomenclature/domain";
+import { Nomenclature } from "modules/nomenclature/application/domain";
 import { memo } from "react";
 import { useIntl } from "react-intl";
 

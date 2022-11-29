@@ -1,6 +1,6 @@
-import { Nomenclature } from "../domain";
+import { Nomenclature } from "./domain";
 
-export interface NomenclatureRepositoryType {
+export type NomenclatureRepositoryType = {
   getNomenclatures: () => Promise<Nomenclature[]>;
   getNomenclature: (id: number) => Promise<Nomenclature>;
   addNomenclature: (
@@ -12,4 +12,4 @@ export interface NomenclatureRepositoryType {
     nomenclature: Nomenclature,
     dictionaryFile?: File
   ) => Promise<Nomenclature>;
-}
+};

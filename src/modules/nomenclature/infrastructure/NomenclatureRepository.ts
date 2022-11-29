@@ -15,40 +15,38 @@ export function createNomenclatureRepository(
   };
 
   const addNomenclature = async (
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
+    nomenclature: Nomenclature
   ): Promise<Nomenclature> => {
-    const formData = new FormData();
-    const json = new Blob([JSON.stringify(nomenclature)], {
-      type: "application/json",
-    });
-    formData.append("nomenclature", json, "");
-    if (dictionaryFile !== undefined) {
-      formData.append("dictionaryFile", dictionaryFile);
-    }
-
-    return postRequestMultiPart<Nomenclature>(
-      apiUrl + "/nomenclatures/add",
-      formData
-    );
+    return saveNomenclature(nomenclature, "/nomenclatures/add");
   };
 
   const editNomenclature = async (
+    nomenclature: Nomenclature
+  ): Promise<Nomenclature> => {
+    return saveNomenclature(nomenclature, "/nomenclatures/" + nomenclature.id);
+  };
+
+  const saveNomenclature = async (
     nomenclature: Nomenclature,
-    dictionaryFile?: File
+    path: string
   ): Promise<Nomenclature> => {
     const formData = new FormData();
-    const json = new Blob([JSON.stringify(nomenclature)], {
+    const nomenclatureData = { ...nomenclature };
+    delete nomenclatureData.dictionaryFile;
+
+    const json = new Blob([JSON.stringify(nomenclatureData)], {
       type: "application/json",
     });
     formData.append("nomenclature", json, "");
-    if (dictionaryFile !== undefined) {
-      formData.append("dictionaryFile", dictionaryFile);
+
+    if (
+      nomenclature.dictionaryFile !== undefined &&
+      nomenclature.dictionaryFile.length > 0
+    ) {
+      formData.append("dictionaryFile", nomenclature.dictionaryFile[0]);
     }
-    return postRequestMultiPart<Nomenclature>(
-      apiUrl + "/nomenclatures/" + nomenclature.id,
-      formData
-    );
+
+    return postRequestMultiPart<Nomenclature>(apiUrl + path, formData);
   };
 
   const deleteNomenclature = async (id: number): Promise<void> => {

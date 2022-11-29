@@ -4,15 +4,9 @@ import { NomenclatureRepositoryType } from "../NomenclatureRepositoryType";
 export type NomenclatureUseCaseType = {
   getNomenclatures: () => Promise<Nomenclature[]>;
   getNomenclature: (id: number) => Promise<Nomenclature>;
-  addNomenclature: (
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
-  ) => Promise<Nomenclature>;
+  addNomenclature: (nomenclature: Nomenclature) => Promise<Nomenclature>;
   deleteNomenclature: (id: number) => Promise<void>;
-  editNomenclature: (
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
-  ) => Promise<Nomenclature>;
+  editNomenclature: (nomenclature: Nomenclature) => Promise<Nomenclature>;
 };
 
 export function createNomenclatureUseCase(
@@ -27,20 +21,15 @@ export function createNomenclatureUseCase(
   };
 
   const addNomenclature = async (
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
+    nomenclature: Nomenclature
   ): Promise<Nomenclature> => {
-    return nomenclatureRepository.addNomenclature(nomenclature, dictionaryFile);
+    return nomenclatureRepository.addNomenclature(nomenclature);
   };
 
   const editNomenclature = async (
-    nomenclature: Nomenclature,
-    dictionaryFile?: File
+    nomenclature: Nomenclature
   ): Promise<Nomenclature> => {
-    return nomenclatureRepository.editNomenclature(
-      nomenclature,
-      dictionaryFile
-    );
+    return nomenclatureRepository.editNomenclature(nomenclature);
   };
 
   const deleteNomenclature = async (id: number): Promise<void> => {

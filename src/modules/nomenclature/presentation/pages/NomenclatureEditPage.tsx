@@ -56,31 +56,13 @@ export const NomenclatureEditPage = memo(() => {
 
   const handleNomenclatureSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
-    let dictionaryFile: File | undefined = undefined;
-    if (data.files?.length > 0) {
-      dictionaryFile = data.files[0];
+
+    let action = nomenclatureUseCase.addNomenclature;
+    if (isEditMode) {
+      action = nomenclatureUseCase.editNomenclature;
     }
 
-    if (isEditMode) {
-      nomenclatureUseCase
-        .editNomenclature(data.nomenclature, dictionaryFile)
-        .then(() => {
-          addToast(
-            intl.formatMessage({ id: "nomenclature_edit_success" }),
-            "success"
-          );
-          navigate("/nomenclatures");
-        })
-        .catch(() => {
-          addToast(intl.formatMessage({ id: "error_request_failed" }), "error");
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
-      return;
-    }
-    nomenclatureUseCase
-      .addNomenclature(data.nomenclature, dictionaryFile)
+    action(data.nomenclature)
       .then(() => {
         addToast(
           intl.formatMessage({ id: "nomenclature_edit_success" }),
@@ -141,7 +123,7 @@ export const NomenclatureEditPage = memo(() => {
                     <Input
                       sx={{ display: "none" }}
                       type="file"
-                      {...register("files")}
+                      {...register("nomenclature.dictionaryFile")}
                     />
                   </Button>
                 </Grid>

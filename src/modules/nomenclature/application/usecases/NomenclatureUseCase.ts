@@ -1,4 +1,3 @@
-import { NotifierType } from "modules/core/application/NotifierType";
 import { Nomenclature } from "../domain";
 import { NomenclatureRepositoryType } from "../NomenclatureRepositoryType";
 
@@ -11,8 +10,7 @@ export type NomenclatureUseCaseType = {
 };
 
 export function createNomenclatureUseCase(
-  nomenclatureRepository: NomenclatureRepositoryType,
-  notifier: NotifierType
+  nomenclatureRepository: NomenclatureRepositoryType
 ): NomenclatureUseCaseType {
   const getNomenclatures = async (): Promise<Nomenclature[]> => {
     return nomenclatureRepository.getNomenclatures();

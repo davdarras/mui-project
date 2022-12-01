@@ -13,9 +13,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import useNotifier from "modules/core/infrastructure/Notifier";
 import { Block, Title } from "modules/core/presentation/components";
 import { Loader } from "modules/core/presentation/components/Loader";
-import { useToast } from "modules/core/presentation/components/Toast";
 import { Nomenclature } from "modules/nomenclature/application/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import * as React from "react";
@@ -29,7 +29,7 @@ export const NomenclatureListPage = memo(() => {
   const nomenclatureUseCase = makeNomenclatureUseCase();
   const intl = useIntl();
   const [isLoading, setLoading] = useState(true);
-  const { addToast } = useToast();
+  const notifier = useNotifier();
 
   useEffect(() => {
     loadNomenclatures();
@@ -44,7 +44,7 @@ export const NomenclatureListPage = memo(() => {
         setLoading(false);
       })
       .catch(() => {
-        addToast(intl.formatMessage({ id: "error_request_failed" }), "error");
+        notifier.error(intl.formatMessage({ id: "error_request_failed" }));
       });
   };
 

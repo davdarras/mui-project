@@ -2,7 +2,6 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Box, Button, Grid, Input, Stack, TextField } from "@mui/material";
 import { Block, Title } from "modules/core/presentation/components";
 import { Loader } from "modules/core/presentation/components/Loader";
-import { useToast } from "modules/core/presentation/components/Toast";
 import { Nomenclature } from "modules/nomenclature/application/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import * as React from "react";
@@ -12,6 +11,7 @@ import { useIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
 import { NomenclatureDictionaryList } from "../components/NomenclatureDictionaryList";
 import LoadingButton from "@mui/lab/LoadingButton";
+import useNotifier from "modules/core/infrastructure/Notifier";
 
 type NomenclatureForm = {
   nomenclature: Nomenclature;
@@ -20,7 +20,7 @@ type NomenclatureForm = {
 
 export const NomenclatureEditPage = memo(() => {
   const [nomenclature, setNomenclature] = useState<Nomenclature>();
-  const { addToast } = useToast();
+  const notifier = useNotifier();
   const nomenclatureUseCase = makeNomenclatureUseCase();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -64,14 +64,13 @@ export const NomenclatureEditPage = memo(() => {
 
     action(data.nomenclature)
       .then(() => {
-        addToast(
-          intl.formatMessage({ id: "nomenclature_edit_success" }),
-          "success"
+        notifier.success(
+          intl.formatMessage({ id: "nomenclature_edit_success" })
         );
         navigate("/nomenclatures");
       })
       .catch(() => {
-        addToast(intl.formatMessage({ id: "error_request_failed" }), "error");
+        notifier.error(intl.formatMessage({ id: "error_request_failed" }));
       })
       .finally(() => {
         setSubmitting(false);

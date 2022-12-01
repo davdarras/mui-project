@@ -8,7 +8,7 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import { useToast } from "modules/core/presentation/components/Toast";
+import useNotifier from "modules/core/infrastructure/Notifier";
 import { Nomenclature } from "modules/nomenclature/application/domain";
 import { makeNomenclatureUseCase } from "modules/nomenclature/factory/NomenclatureFactory";
 import React, { memo, useState } from "react";
@@ -22,7 +22,7 @@ type NomenclatureDeleteType = {
 export const NomenclatureDelete = memo(
   ({ nomenclature, loadNomenclatures }: NomenclatureDeleteType) => {
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-    const { addToast } = useToast();
+    const notifier = useNotifier();
     const nomenclatureUseCase = makeNomenclatureUseCase();
     const intl = useIntl();
 
@@ -34,9 +34,8 @@ export const NomenclatureDelete = memo(
       nomenclatureUseCase
         .deleteNomenclature(nomenclature.id)
         .then(() => {
-          addToast(
-            intl.formatMessage({ id: "nomenclature_delete_success" }),
-            "success"
+          notifier.success(
+            intl.formatMessage({ id: "nomenclature_delete_success" })
           );
         })
         .then(() => {

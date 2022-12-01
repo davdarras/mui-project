@@ -1,7 +1,7 @@
 import { useSnackbar } from "notistack";
 import { NotificationType, NotifierType } from "../application/NotifierType";
 
-const getNotifier = (): NotifierType => {
+const useNotifier = (): NotifierType => {
   const { enqueueSnackbar } = useSnackbar();
 
   const info = (message: string): void => {
@@ -33,4 +33,4 @@ const getNotifier = (): NotifierType => {
   return { success, error, warn, info };
 };
 
-export default getNotifier;
+export default useNotifier;

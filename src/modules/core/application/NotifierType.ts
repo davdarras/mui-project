@@ -4,5 +4,8 @@ export type NotificationType = {
 };
 
 export type NotifierType = {
-  notify: (notification: NotificationType) => void;
+  info: (message: string) => void;
+  warn: (message: string) => void;
+  error: (message: string) => void;
+  success: (message: string) => void;
 };

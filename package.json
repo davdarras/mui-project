@@ -1,6 +1,13 @@
 {
   "name": "mui-project",
   "version": "0.1.0",
+  "description": "Web application",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InseeFr/Public-Enemy.git"
+  },
+  "author": "INSEE (http://www.insee.fr)",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -32,6 +39,19 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,json,md,ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged -v"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -51,6 +71,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "@welldone-software/why-did-you-render": "^7.0.1",
@@ -60,6 +82,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
     "husky": "^8.0.2",
+    "lint-staged": "^13.0.4",
     "prettier": "^2.7.1"
   }
 }

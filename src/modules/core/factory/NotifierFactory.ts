@@ -1,3 +1,4 @@
-import { notify } from "../infrastructure/Notifier";
+import { NotifierType } from "../application/NotifierType";
+import getNotifier from "../infrastructure/Notifier";
 
-export const makeNotifier = notifier;
+export const makeNotifier = (): NotifierType => getNotifier();

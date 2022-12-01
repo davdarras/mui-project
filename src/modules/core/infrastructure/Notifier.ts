@@ -1,26 +1,26 @@
 import { useSnackbar } from "notistack";
 import { NotificationType, NotifierType } from "../application/NotifierType";
 
-export const notifier = (): NotifierType => {
+const getNotifier = (): NotifierType => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const info = (notification: NotificationType): void => {
-    if (notification.type === undefined) {
-      notification.type = "default";
-    }
-    enqueueSnackbar(notification.message, {
-      variant: notification.type,
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "center",
-      },
-    });
+  const info = (message: string): void => {
+    notify({ message: message, type: "info" });
+  };
+
+  const warn = (message: string): void => {
+    notify({ message: message, type: "warning" });
+  };
+
+  const success = (message: string): void => {
+    notify({ message: message, type: "success" });
+  };
+
+  const error = (message: string): void => {
+    notify({ message: message, type: "error" });
   };
 
   const notify = (notification: NotificationType): void => {
-    if (notification.type === undefined) {
-      notification.type = "default";
-    }
     enqueueSnackbar(notification.message, {
       variant: notification.type,
       anchorOrigin: {
@@ -30,5 +30,7 @@ export const notifier = (): NotifierType => {
     });
   };
 
-  return { notify };
+  return { success, error, warn, info };
 };
+
+export default getNotifier;
